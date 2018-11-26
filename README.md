@@ -40,12 +40,16 @@ This step is required so that Ansible can log in to Azure with non-interactive a
 
 3. Type the following command by replacing ServicePrincipalName and PASSWORD with your desired values
 
+    `az ad sp create-for-rbac --name ServicePrincipalName --password PASSWORD `
+
 4. It will give you a JSON output as shown in the image. Note down the **appId, Password, **and** tenantID.**
 
 ![image alt text](images/image_1.png)
 
 5. Type the following command to get Azure **SubscriptionID **and Note it down.
 
+      `az account show`
+      
 ![image alt text](images/image_2.png)
 
 Follow the directions in the section of the **Create the service principal **section in the article, [Create an Azure service principal with Azure CLI 2.0](https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest#create-the-service-principal) for more information.
@@ -91,14 +95,32 @@ This template creates an Ubuntu Virtual Machine in the desired Resource Group an
 
 5. Now we must create a directory named **_.azure_** in the home directory and a **_credentials_**** **file under it. Type the following commands to create them.
 
+     `mkdir ~/.azure
+     
+      nano ~/.azure/credentials
+      `
 6. Insert the following lines into the **_credentials_** file - replacing the placeholders with the information from the service principal creation.
-
+        `
+         [default]
+        
+         subscription_id=<your-subscription_id>
+         
+         client_id=<security-principal-appid>
+         
+         secret=<security-principal-password>
+         
+         tenant=<security-principal-tenant>
+         `
+         
 ![image alt text](images/image_7.png)
 
 7. Now save and close the file.
 
 8. And lastly, we will create a pair of private/public keys and install the public key in the local machine.
-
+      `
+      ssh-keygen -t rsa
+      
+      `
 ![image alt text](images/image_8.png)
 
 **Note: **Replace ‘vmadmin’ with your virtual machine’s admin username.
